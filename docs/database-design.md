@@ -209,54 +209,99 @@ erDiagram
 
 ```mermaid
 erDiagram
-    categories ||--o{ products : "contains"
-    brands ||--o{ products : "has"
+    product_categories ||--o{ products : "contains"
+    product_brands ||--o{ products : "has"
     products ||--o{ product_attributes : "has"
-    products ||--o{ skus : "has"
-    products ||--o{ product_images : "has"
-    attribute_keys ||--o{ product_attributes : "defines"
+    products ||--o{ product_skus : "has"
+    products ||--o{ product_reviews : "has"
 
-    categories {
+    product_categories {
         bigint id PK
         bigint parent_id FK
-        varchar name
-        int sort
-        boolean enabled
+        varchar name UK
+        integer level
+        integer sort
+        varchar icon
+        smallint status
+        boolean deleted
     }
 
-    brands {
+    product_brands {
         bigint id PK
         varchar name UK
         varchar logo
-        varchar description
-        boolean enabled
-    }
-
-    products {
-        bigint id PK
-        varchar name
-        bigint category_id FK
-        bigint brand_id FK
-        decimal price
-        varchar description
+        text description
+        integer sort
         smallint status
-    }
-
-    skus {
-        bigint id PK
-        bigint product_id FK
-        varchar sku_code UK
-        varchar spec_values
-        decimal price
-        int stock
-        boolean enabled
+        boolean deleted
     }
 
     product_attributes {
         bigint id PK
+        bigint category_id FK
+        varchar name
+        smallint type
+        smallint input_type
+        varchar input_list
+        integer sort
+        boolean filter
+        boolean search
+        smallint status
+        boolean deleted
+    }
+
+    products {
+        bigint id PK
+        bigint category_id FK
+        bigint brand_id FK
+        varchar name UK
+        varchar subtitle
+        text description
+        decimal price
+        decimal original_price
+        varchar pic_url
+        text album_pics
+        text detail_html
+        varchar unit
+        decimal weight
+        varchar service_ids
+        varchar keywords
+        varchar note
+        smallint publish_status
+        smallint recommend_status
+        smallint verify_status
+        integer sort
+        integer sale
+        boolean deleted
+    }
+
+    product_skus {
+        bigint id PK
         bigint product_id FK
-        bigint attribute_key_id FK
-        varchar attribute_value
+        varchar sku_code UK
+        varchar name
+        jsonb spec_data
+        decimal price
+        decimal original_price
+        integer stock
+        integer low_stock
+        varchar pic_url
+        smallint status
+        boolean deleted
+    }
+
+    product_reviews {
+        bigint id PK
+        bigint product_id FK
+        bigint sku_id FK
+        bigint order_id FK
+        bigint user_id FK
+        smallint star
+        text content
+        text pics
+        varchar video_url
+        smallint status
+        boolean deleted
     }
 ```
 
@@ -316,33 +361,50 @@ erDiagram
 ```mermaid
 erDiagram
     message_templates ||--o{ messages : "generates"
-    messages ||--o{ message_logs : "has"
+    messages ||--o{ internal_messages : "has"
 
     message_templates {
         bigint id PK
         varchar code UK
         varchar name
-        varchar content
         smallint type
-        boolean enabled
+        text title_template
+        text content_template
+        jsonb params
+        smallint status
+        boolean deleted
     }
 
     messages {
         bigint id PK
-        varchar template_code FK
-        bigint user_id
-        varchar content
+        bigint template_id FK
+        varchar template_code
         smallint type
+        varchar title
+        text content
+        varchar sender
+        varchar receiver
+        jsonb params
         smallint status
+        timestamp send_time
     }
 
-    message_logs {
+    internal_messages {
         bigint id PK
         bigint message_id FK
-        varchar send_to
+        bigint user_id
+        varchar title
+        text content
+        boolean is_read
+        timestamp read_time
+    }
+
+    message_configs {
+        bigint id PK
         smallint type
+        varchar name
+        jsonb config
         smallint status
-        text error_info
     }
 ```
 
@@ -357,13 +419,17 @@ erDiagram
 
     jobs {
         bigint id PK
-        varchar name
+        varchar name UK
         varchar job_group
         varchar invoke_target
         varchar cron_expression
         smallint misfire_policy
         boolean concurrent
         smallint status
+        varchar remark
+        smallint notify_channel
+        varchar notify_emails
+        boolean deleted
     }
 
     job_logs {
@@ -371,6 +437,7 @@ erDiagram
         bigint job_id FK
         varchar name
         varchar job_group
+        varchar invoke_target
         varchar job_message
         smallint status
         text exception_info
@@ -380,7 +447,7 @@ erDiagram
 
     job_locks {
         bigint id PK
-        varchar lock_name
+        varchar lock_name UK
         varchar lock_key
         varchar node_id
         timestamp lock_time
