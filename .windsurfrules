@@ -1,0 +1,69 @@
+# Windsurf Development Rules
+# 确保开发过程严格遵循项目文档规范
+
+rules:
+  - name: "遵循开发环境配置"
+    description: "所有开发活动必须基于 /deploy 目录下配置的标准开发环境"
+    checks:
+      - verify_environment_consistency
+      - check_deployment_docs
+    path: "/deploy/**"
+
+  - name: "遵循模块开发文档"
+    description: "所有模块的开发必须严格遵循 /docs 目录下的开发文档"
+    checks:
+      - verify_module_documentation
+      - check_design_compliance
+    path: "/docs/**"
+
+  - name: "数据库变更规范"
+    description: "数据库相关变更必须参考数据库设计文档"
+    checks:
+      - verify_database_schema
+      - check_sql_standards
+    path: "/sql/**"
+
+validations:
+  verify_environment_consistency:
+    - check_deployment_prerequisites
+    - validate_environment_variables
+    - verify_service_dependencies
+
+  verify_module_documentation:
+    - check_api_specifications
+    - validate_architecture_compliance
+    - verify_coding_standards
+
+  verify_database_schema:
+    - check_schema_consistency
+    - validate_field_comments
+    - verify_constraints
+
+warnings:
+  - "修改代码前请先阅读相关模块的开发文档"
+  - "确保了解开发环境的完整配置"
+  - "遵循数据库设计文档中的规范"
+  - "参考API文档进行接口开发"
+  - "按照架构设计文档进行模块划分"
+
+documentation_paths:
+  deployment: "/deploy"
+  design: "/docs"
+  database: "/docs/database-design.md"
+  modules: "/docs/modules"
+  api: "/docs/api"
+
+development_environment:
+  reference: "/deploy"
+  configuration: "必须严格按照部署文档配置开发环境"
+  validation: "每次修改前确认环境一致性"
+
+module_development:
+  reference: "/docs/modules"
+  requirement: "严格遵循模块设计文档"
+  validation: "确保代码符合文档规范"
+
+database_changes:
+  reference: "/docs/database-design.md"
+  requirement: "遵循数据库设计规范"
+  validation: "确保字段注释和约束完整"
