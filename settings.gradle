@@ -1,0 +1,11 @@
+rootProject.name = 'java-cloud'
+
+include 'cloud-common'
+include 'cloud-gateway'
+include 'cloud-auth'
+include 'cloud-user'
+include 'cloud-product'
+include 'cloud-order'
+include 'cloud-job'
+include 'cloud-message'
+include 'cloud-promotion'

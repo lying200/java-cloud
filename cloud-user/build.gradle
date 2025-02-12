@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':cloud-common')
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.postgresql:r2dbc-postgresql'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+}
