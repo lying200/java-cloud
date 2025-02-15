@@ -1,3 +1,22 @@
-﻿spring:
+spring:
   application:
     name: cloud-gateway
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            cloud-auth:
+              - uri: http://localhost:8082
+            cloud-user:
+              - uri: http://localhost:8081
+            cloud-product:
+              - uri: http://localhost:8083
+            cloud-order:
+              - uri: http://localhost:8084
+            cloud-promotion:
+              - uri: http://localhost:8085
+            cloud-message:
+              - uri: http://localhost:8086
+            cloud-job:
+              - uri: http://localhost:8087

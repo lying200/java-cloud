@@ -4,10 +4,7 @@ spring:
   cloud:
     kubernetes:
       discovery:
-        enabled: true
-        namespaces:
-          - dev
-        discovery-server-url: https://192.168.3.201:6443
+        enabled: false
       config:
         enabled: true
         enable-api: true
