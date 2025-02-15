@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-order
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8084
+    
+    spring:
+      application:
+        name: cloud-order
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_order
+    seata:
+      enabled: true
+      application-id: ${spring.application.name}
+      tx-service-group: order_tx_group
+      service:
+        vgroup-mapping:
+          order_tx_group: default
+      registry:
+        type: kubernetes
+        kubernetes:
+          namespace: ${spring.cloud.kubernetes.namespace}
+          application-id: ${spring.application.name}
+          cluster: default

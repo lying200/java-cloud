@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-gateway
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8080
+    
+    spring:
+      application:
+        name: cloud-gateway
+      cloud:
+        gateway:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+                   
+    # Gateway路由配置
+    gateway:
+      routes:
+        - id: cloud-user
+          uri: lb://cloud-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=2
+        - id: cloud-auth
+          uri: lb://cloud-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+        - id: cloud-product
+          uri: lb://cloud-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=2
+        - id: cloud-order
+          uri: lb://cloud-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=2

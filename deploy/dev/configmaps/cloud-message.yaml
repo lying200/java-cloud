@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-message
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8086
+    
+    spring:
+      application:
+        name: cloud-message
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_message
+      cloud:
+        stream:
+          function:
+            definition: messageProcessor
+          bindings:
+            messageProcessor-in-0:
+              destination: messages
+              group: ${spring.application.name}
+            
+    message:
+      sms:
+        enabled: false  # 开发环境禁用短信发送
+        provider: mock  # mock, aliyun, tencent
+      email:
+        enabled: true
+        host: smtp.163.com
+        port: 465
+        username: test@163.com
+        password: your-password
+        properties:
+          mail.smtp.auth: true
+          mail.smtp.ssl.enable: true

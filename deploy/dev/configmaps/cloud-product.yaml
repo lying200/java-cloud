@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-product
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8083
+    
+    spring:
+      application:
+        name: cloud-product
+      elasticsearch:
+        uris: http://192.168.3.201:31920
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_product
+            
+    product:
+      image:
+        storage:
+          type: local
+          local:
+            path: /data/products/images
+          # 后续可以配置为MinIO或其他对象存储
+      cache:
+        ttl: 3600 # 缓存过期时间（秒）

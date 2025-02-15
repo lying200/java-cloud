@@ -1,0 +1,27 @@
+spring:
+  main:
+    cloud-platform: KUBERNETES
+  cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+        namespaces:
+          - dev
+        discovery-server-url: https://192.168.3.201:6443
+      config:
+        enabled: true
+        enable-api: true
+        name: ${spring.application.name}
+        namespace: dev
+        sources:
+          - namespace: dev
+            name: common-config
+          - namespace: dev
+            name: ${spring.application.name}
+        fail-fast: true
+        include-profile-specific-sources: false
+      reload:
+        enabled: true
+        mode: polling
+        period: 5000
+

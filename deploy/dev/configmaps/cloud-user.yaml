@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-user
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8082
+    
+    spring:
+      application:
+        name: cloud-user
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_user

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-promotion
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8087
+    
+    spring:
+      application:
+        name: cloud-promotion
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_promotion
+            
+    promotion:
+      rules:
+        cache-ttl: 3600  # 促销规则缓存时间（秒）
+      activity:
+        preview-days: 7  # 预告活动提前天数

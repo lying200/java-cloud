@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: common-config
+  namespace: dev
+data:
+  application.yml: |
+    spring:
+      r2dbc:
+        username: devuser
+        password: devpassword
+        pool:
+          initial-size: 5
+          max-size: 20
+      data:
+        redis:
+          host: 192.168.3.201
+          port: 31379
+      rabbitmq:
+        host: 192.168.3.201
+        port: 31672
+        username: devuser
+        password: devpassword
+
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+      endpoint:
+        health:
+          show-details: always
+
+    logging:
+      level:
+        root: INFO
+        com.lying.cloud: DEBUG

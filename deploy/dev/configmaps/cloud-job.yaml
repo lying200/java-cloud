@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-job
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8085
+    
+    spring:
+      application:
+        name: cloud-job
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_job
+      quartz:
+        job-store-type: jdbc
+        properties:
+          org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+          org.quartz.jobStore.useProperties: true
+          org.quartz.jobStore.tablePrefix: qrtz_

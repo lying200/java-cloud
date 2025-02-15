@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-auth
+  namespace: dev
+data:
+  application.yml: |
+    server:
+      port: 8081
+    
+    spring:
+      application:
+        name: cloud-auth
+      r2dbc:
+        url: r2dbc:postgresql://192.168.3.201:31432/cloud_auth
+      security:
+        oauth2:
+          resourceserver:
+            jwt:
+              issuer-uri: http://cloud-auth:8082
+          authorizationserver:
+            issuer: http://cloud-auth:8082
+            
+    auth:
+      jwt:
+        key-pair:
+          private: classpath:keys/jwt.key
+          public: classpath:keys/jwt.pub
+        access-token-validity: 3600
+        refresh-token-validity: 86400

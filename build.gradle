@@ -40,6 +40,8 @@ subprojects {
         implementation 'io.micrometer:micrometer-tracing-bridge-otel'
         implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+        implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
