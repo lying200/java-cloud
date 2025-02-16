@@ -14,8 +14,8 @@ CREATE TABLE auth_users (
     version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX idx_auth_users_username ON auth_users (username) WHERE NOT deleted;
-CREATE INDEX idx_auth_users_user_id ON auth_users (user_id) WHERE NOT deleted;
+CREATE UNIQUE INDEX idx_auth_users_username ON auth_users (username);
+CREATE INDEX idx_auth_users_user_id ON auth_users (user_id);
 
 COMMENT ON TABLE auth_users IS '认证用户表';
 COMMENT ON COLUMN auth_users.user_id IS '关联的用户ID';
@@ -47,7 +47,7 @@ CREATE TABLE oauth2_clients (
     version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX idx_oauth2_clients_client_id ON oauth2_clients (client_id) WHERE NOT deleted;
+CREATE UNIQUE INDEX idx_oauth2_clients_client_id ON oauth2_clients (client_id);
 
 COMMENT ON TABLE oauth2_clients IS 'OAuth2客户端表';
 COMMENT ON COLUMN oauth2_clients.client_id IS '客户端ID';
@@ -81,7 +81,7 @@ CREATE TABLE oauth2_authorization_codes (
     version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX idx_oauth2_authorization_codes_code ON oauth2_authorization_codes (code) WHERE NOT deleted;
+CREATE UNIQUE INDEX idx_oauth2_authorization_codes_code ON oauth2_authorization_codes (code);
 
 COMMENT ON TABLE oauth2_authorization_codes IS 'OAuth2授权码表';
 COMMENT ON COLUMN oauth2_authorization_codes.code IS '授权码';
@@ -112,8 +112,8 @@ CREATE TABLE oauth2_access_tokens (
     version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX idx_oauth2_access_tokens_token_id ON oauth2_access_tokens (token_id) WHERE NOT deleted;
-CREATE UNIQUE INDEX idx_oauth2_access_tokens_authentication_id ON oauth2_access_tokens (authentication_id) WHERE NOT deleted;
+CREATE UNIQUE INDEX idx_oauth2_access_tokens_token_id ON oauth2_access_tokens (token_id);
+CREATE UNIQUE INDEX idx_oauth2_access_tokens_authentication_id ON oauth2_access_tokens (authentication_id);
 
 COMMENT ON TABLE oauth2_access_tokens IS 'OAuth2访问令牌表';
 COMMENT ON COLUMN oauth2_access_tokens.token_id IS '令牌ID';
@@ -146,7 +146,7 @@ CREATE TABLE oauth2_refresh_tokens (
     version INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE UNIQUE INDEX idx_oauth2_refresh_tokens_token_id ON oauth2_refresh_tokens (token_id) WHERE NOT deleted;
+CREATE UNIQUE INDEX idx_oauth2_refresh_tokens_token_id ON oauth2_refresh_tokens (token_id);
 
 COMMENT ON TABLE oauth2_refresh_tokens IS 'OAuth2刷新令牌表';
 COMMENT ON COLUMN oauth2_refresh_tokens.token_id IS '令牌ID';

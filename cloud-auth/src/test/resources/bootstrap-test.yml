@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  r2dbc:
+    url: r2dbc:h2:mem:///testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password:
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:schema-h2.sql
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.cloudnative.auth: DEBUG
+    org.springframework.r2dbc: DEBUG
