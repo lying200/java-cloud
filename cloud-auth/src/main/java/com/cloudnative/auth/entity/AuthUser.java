@@ -14,6 +14,7 @@ public class AuthUser {
     private Long userId;  // 关联cloud-user模块中的用户ID
     private String username;
     private String password;
+    private String role;
     private Short status;  // 1-正常，2-禁用
     private Boolean deleted;
     private LocalDateTime createTime;

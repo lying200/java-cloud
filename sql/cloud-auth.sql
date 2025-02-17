@@ -7,6 +7,7 @@ CREATE TABLE auth_users (
     user_id BIGINT NOT NULL,  -- 关联cloud-user模块中的用户ID
     username VARCHAR(100) NOT NULL,
     password VARCHAR(200) NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'USER',
     status SMALLINT NOT NULL DEFAULT 1,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -21,6 +22,7 @@ COMMENT ON TABLE auth_users IS '认证用户表';
 COMMENT ON COLUMN auth_users.user_id IS '关联的用户ID';
 COMMENT ON COLUMN auth_users.username IS '用户名';
 COMMENT ON COLUMN auth_users.password IS '密码';
+COMMENT ON COLUMN auth_users.role IS '角色';
 COMMENT ON COLUMN auth_users.status IS '状态：1-正常，2-禁用';
 COMMENT ON COLUMN auth_users.deleted IS '是否删除';
 COMMENT ON COLUMN auth_users.create_time IS '创建时间';

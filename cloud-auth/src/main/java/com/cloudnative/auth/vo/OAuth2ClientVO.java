@@ -1,23 +1,19 @@
-package com.cloudnative.auth.entity;
+package com.cloudnative.auth.vo;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-@Table("oauth2_clients")
-public class OAuth2Client {
-    @Id
+public class OAuth2ClientVO {
     private Long id;
     private String clientId;
     private String clientSecret;
     private String clientName;
     private String redirectUri;
-    private String scopes;
-    private String authorizedGrantTypes;
+    private List<String> scopes;
+    private List<String> authorizedGrantTypes;
     private Integer accessTokenValidity;
     private Integer refreshTokenValidity;
     private String additionalInformation;
@@ -26,6 +22,5 @@ public class OAuth2Client {
     private Boolean deleted;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    @Version
     private Integer version;
 }

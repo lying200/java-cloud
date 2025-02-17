@@ -34,6 +34,8 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -49,6 +51,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class AuthorizationServerConfig {
 
     private final AuthUserService authUserService;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     public HttpFirewall allowSemicolonHttpFirewall() {
@@ -82,7 +86,7 @@ public class AuthorizationServerConfig {
                 )
                 .exceptionHandling(exceptions -> {
                     exceptions.defaultAuthenticationEntryPointFor(
-                            new LoginUrlAuthenticationEntryPoint("/login"),
+                            new LoginUrlAuthenticationEntryPoint("/login.html"),
                             new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                     );
                     exceptions.defaultAuthenticationEntryPointFor(
@@ -100,19 +104,23 @@ public class AuthorizationServerConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http
-                .authorizeHttpRequests(authorize ->
-                                               authorize
-                                                       .requestMatchers("/oauth2/token", "/oauth2/token/**").permitAll()
-                                                       .requestMatchers("/oauth2/authorize", "/oauth2/authorize/**").permitAll()
-                                                       .requestMatchers("/login", "/login/**").permitAll()
-                                                       .anyRequest().authenticated()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/login.html").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
                         .httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable)
                 )
-                .formLogin(Customizer.withDefaults());
+                .formLogin(
+                        httpSecurityFormLoginConfigurer ->
+                                httpSecurityFormLoginConfigurer
+                                        .loginPage("/login.html")
+                                        .loginProcessingUrl("/authentication/login")
+                                        .failureHandler(authenticationFailureHandler)
+                                        .successHandler(authenticationSuccessHandler)
+                );
 
         return http.build();
     }

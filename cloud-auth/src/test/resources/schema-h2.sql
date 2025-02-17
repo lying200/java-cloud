@@ -7,6 +7,7 @@ CREATE TABLE auth_users (
     user_id BIGINT NOT NULL,  -- 关联cloud-user模块中的用户ID
     username VARCHAR(100) NOT NULL,
     password VARCHAR(200) NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'USER',
     status SMALLINT NOT NULL DEFAULT 1,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,

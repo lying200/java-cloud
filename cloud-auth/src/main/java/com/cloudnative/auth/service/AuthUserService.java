@@ -18,7 +18,7 @@ public class AuthUserService {
         return authUserRepository.findActiveByUsername(username)
                 .map(user -> User.withUsername(user.getUsername())
                         .password(user.getPassword())
-                        .roles("USER")  // 后续可以从数据库加载角色
+                        .roles(user.getRole())
                         .build());
     }
 

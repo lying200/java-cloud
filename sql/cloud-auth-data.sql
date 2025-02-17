@@ -1,8 +1,8 @@
 -- 插入测试用户数据
-INSERT INTO auth_users (user_id, username, password, status)
+INSERT INTO auth_users (user_id, username, password, status, role)
 VALUES
-(1, 'admin', '{bcrypt}$2a$10$3yAhAxJljfREMSysaCHzAu8uvdu1vH/qDVRru/GglU.oaUjcnBSKW', 1),  -- 密码: password123
-(2, 'test', '{bcrypt}$2a$10$3yAhAxJljfREMSysaCHzAu8uvdu1vH/qDVRru/GglU.oaUjcnBSKW', 1);   -- 密码: password123
+(1, 'admin', '{bcrypt}$2a$10$3yAhAxJljfREMSysaCHzAu8uvdu1vH/qDVRru/GglU.oaUjcnBSKW', 1, 'ADMIN'),  -- 密码: password123
+(2, 'test', '{bcrypt}$2a$10$3yAhAxJljfREMSysaCHzAu8uvdu1vH/qDVRru/GglU.oaUjcnBSKW', 1, 'USER');   -- 密码: password123
 
 -- 插入测试客户端数据
 INSERT INTO oauth2_clients (client_id, client_secret, client_name, redirect_uri, scopes, authorized_grant_types,

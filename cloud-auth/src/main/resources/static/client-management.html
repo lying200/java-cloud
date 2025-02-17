@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth2 客户端管理 - Cloud Native Auth</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- Vue 3 -->
+    <script src="/js/vue.global-3.5.13.js"></script>
+    <!-- Naive UI -->
+    <script src="/js/naive-ui-2.41.0.js"></script>
+    <style>
+        .page-container {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: auto;
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="page-container">
+        <div class="page-header">
+            <h2>OAuth2 客户端管理</h2>
+            <n-button type="primary" @click="handleAdd">
+                新建客户端
+            </n-button>
+        </div>
+
+        <n-data-table
+                :columns="columns"
+                :data="clients"
+                :loading="loading"
+                :pagination="pagination"
+                @update:page="handlePageChange"
+        ></n-data-table>
+
+        <!-- 创建/编辑客户端模态框 -->
+        <n-modal v-model:show="showCreateModal" :mask-closable="false" @close="handleModalClose">
+            <n-card
+                    :title="editingClient.id ? '编辑客户端' : '新建客户端'"
+                    style="width: 600px"
+                    :bordered="false"
+                    size="huge"
+                    role="dialog"
+                    aria-modal="true"
+            >
+                <n-form
+                        ref="formRef"
+                        :model="editingClient"
+                        :rules="rules"
+                        label-placement="left"
+                        label-width="140"
+                        require-mark-placement="right-hanging"
+                >
+                    <n-form-item label="客户端ID" path="clientId">
+                        <n-input v-model:value="editingClient.clientId" placeholder="请输入客户端ID"/>
+                    </n-form-item>
+                    <n-form-item label="客户端密钥" path="clientSecret">
+                        <n-input v-model:value="editingClient.clientSecret" placeholder="请输入客户端密钥" type="password"/>
+                    </n-form-item>
+                    <n-form-item label="客户端名称" path="clientName">
+                        <n-input v-model:value="editingClient.clientName" placeholder="请输入客户端名称"/>
+                    </n-form-item>
+                    <n-form-item label="重定向URI" path="redirectUri">
+                        <n-input v-model:value="editingClient.redirectUri" placeholder="请输入重定向URI"/>
+                    </n-form-item>
+                    <n-form-item label="授权范围" path="scopes">
+                        <n-select v-model:value="editingClient.scopes" multiple :options="scopeOptions" placeholder="请选择授权范围"/>
+                    </n-form-item>
+                    <n-form-item label="授权类型" path="authorizedGrantTypes">
+                        <n-select v-model:value="editingClient.authorizedGrantTypes" multiple :options="grantTypeOptions" placeholder="请选择授权类型"/>
+                    </n-form-item>
+                    <n-form-item label="访问令牌有效期" path="accessTokenValidity">
+                        <n-input-number v-model:value="editingClient.accessTokenValidity" placeholder="请输入访问令牌有效期（秒）" :min="60"/>
+                    </n-form-item>
+                    <n-form-item label="刷新令牌有效期" path="refreshTokenValidity">
+                        <n-input-number v-model:value="editingClient.refreshTokenValidity" placeholder="请输入刷新令牌有效期（秒）" :min="60"/>
+                    </n-form-item>
+                    <n-form-item label="自动批准" path="autoApprove">
+                        <n-switch v-model:value="editingClient.autoApprove"/>
+                    </n-form-item>
+                </n-form>
+
+                <template #footer>
+                    <n-space justify="end">
+                        <n-button @click="handleModalClose">取消</n-button>
+                        <n-button type="primary" @click="handleSaveClient" :loading="saving">
+                            保存
+                        </n-button>
+                    </n-space>
+                </template>
+            </n-card>
+        </n-modal>
+    </div>
+</div>
+
+<script>
+    const {createApp, ref, onMounted, h} = Vue;
+    const {
+        NButton,
+        NSpace,
+        NModal,
+        NCard,
+        NForm,
+        NFormItem,
+        NInput,
+        NInputNumber,
+        NSwitch,
+        NSelect,
+        NSelectOption,
+        NDataTable,
+        NPopconfirm
+    } = naive;
+    const app = createApp({
+        setup() {
+            const loading = ref(false);
+            const saving = ref(false);
+            const showCreateModal = ref(false);
+            const formRef = ref(null);
+            const clients = ref([]);
+            const pagination = ref({
+                page: 1,
+                pageSize: 10,
+                itemCount: 0,
+                showSizePicker: true,
+                pageSizes: [10, 20, 50]
+            });
+
+            const editingClient = ref({
+                id: null,
+                clientId: '',
+                clientSecret: '',
+                clientName: '',
+                redirectUri: '',
+                scopes: [],
+                authorizedGrantTypes: [],
+                accessTokenValidity: 3600,
+                refreshTokenValidity: 7200,
+                autoApprove: false
+            });
+
+            const resetForm = () => {
+                editingClient.value = {
+                    id: null,
+                    clientId: '',
+                    clientSecret: '',
+                    clientName: '',
+                    redirectUri: '',
+                    scopes: [],
+                    authorizedGrantTypes: [],
+                    accessTokenValidity: 3600,
+                    refreshTokenValidity: 7200,
+                    autoApprove: false
+                };
+                if (formRef.value) {
+                    formRef.value.restoreValidation();
+                }
+            };
+
+            const rules = {
+                clientId: [{required: true, message: '请输入客户端ID', trigger: ['blur', 'input']}],
+                clientSecret: [{required: true, message: '请输入客户端密钥', trigger: ['blur', 'input']}],
+                clientName: [{required: true, message: '请输入客户端名称', trigger: ['blur', 'input']}],
+                redirectUri: [{required: true, message: '请输入重定向URI', trigger: ['blur', 'input']}],
+                scopes: [{required: true, type: 'array', message: '请选择授权范围', trigger: ['blur', 'change']}],
+                authorizedGrantTypes: [{required: true, type: 'array', message: '请选择授权类型', trigger: ['blur', 'change']}],
+                accessTokenValidity: [{required: true, type: 'number', min: 60, message: '访问令牌有效期不能小于60秒', trigger: ['blur', 'change']}],
+                refreshTokenValidity: [{required: true, type: 'number', min: 60, message: '刷新令牌有效期不能小于60秒', trigger: ['blur', 'change']}]
+            };
+
+            const scopeOptions = [
+                { label: '读取', value: 'read' },
+                { label: '写入', value: 'write' },
+                { label: 'OPENID', value: 'openid' },
+                { label: '个人信息', value: 'profile' },
+                { label: '全部', value: 'all' }
+            ];
+
+            const grantTypeOptions = [
+                { label: '授权码', value: 'authorization_code' },
+                { label: '密码', value: 'password' },
+                { label: '客户端凭证', value: 'client_credentials' },
+                { label: '刷新令牌', value: 'refresh_token' }
+            ];
+
+            const columns = [
+                {title: '客户端ID', key: 'clientId'},
+                {title: '客户端名称', key: 'clientName'},
+                {title: '重定向URI', key: 'redirectUri'},
+                {
+                    title: '授权范围',
+                    key: 'scopes',
+                    render(row) {
+                        return h('span', null, {
+                            default: () => (row.scopes || []).join(', ')
+                        });
+                    }
+                },
+                {
+                    title: '授权类型',
+                    key: 'authorizedGrantTypes',
+                    render(row) {
+                        return h('span', null, {
+                            default: () => (row.authorizedGrantTypes || []).join(', ')
+                        });
+                    }
+                },
+                {
+                    title: '操作',
+                    key: 'actions',
+                    render(row) {
+                        return h(NSpace, null, {
+                            default: () => [
+                                h(
+                                    NButton,
+                                    {
+                                        size: 'small',
+                                        onClick: () => handleEdit(row)
+                                    },
+                                    {default: () => '编辑'}
+                                ),
+                                h(
+                                    NPopconfirm,
+                                    {
+                                        onPositiveClick: () => handleDelete(row)
+                                    },
+                                    {
+                                        default: () => '确认删除？',
+                                        trigger: () => h(
+                                            NButton,
+                                            {
+                                                size: 'small',
+                                                type: 'error'
+                                            },
+                                            {default: () => '删除'}
+                                        )
+                                    }
+                                )
+                            ]
+                        });
+                    }
+                }
+            ];
+
+            const loadClients = async () => {
+                loading.value = true;
+                try {
+                    const response = await fetch(`/api/oauth2/clients?page=${pagination.value.page}&size=${pagination.value.pageSize}`);
+                    if (!response.ok) {
+                        throw new Error('加载失败');
+                    }
+                    const data = await response.json();
+                    clients.value = data.records;
+                    pagination.value.itemCount = data.total;
+                } catch (error) {
+                    message.error(error.message);
+                } finally {
+                    loading.value = false;
+                }
+            };
+
+            const handlePageChange = (page) => {
+                pagination.value.page = page;
+                loadClients();
+            };
+
+            const handleSaveClient = () => {
+                formRef.value?.validate(async (errors) => {
+                    if (errors) {
+                        return;
+                    }
+
+                    saving.value = true;
+                    try {
+                        const method = editingClient.value.id ? 'PUT' : 'POST';
+                        const url = editingClient.value.id
+                            ? `/api/oauth2/clients/${editingClient.value.id}`
+                            : '/api/oauth2/clients';
+
+                        const response = await fetch(url, {
+                            method,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(editingClient.value)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(editingClient.value.id ? '更新失败' : '创建失败');
+                        }
+
+                        message.success(editingClient.value.id ? '更新成功' : '创建成功');
+                        showCreateModal.value = false;
+                        resetForm();
+                        loadClients();
+                    } catch (error) {
+                        message.error(error.message);
+                    } finally {
+                        saving.value = false;
+                    }
+                });
+            };
+
+            const handleEdit = (row) => {
+                editingClient.value = {
+                    ...row,
+                    scopes: row.scopes || [],
+                    authorizedGrantTypes: row.authorizedGrantTypes || []
+                };
+                showCreateModal.value = true;
+            };
+
+            const handleAdd = () => {
+                resetForm();
+                showCreateModal.value = true;
+            };
+
+            const handleDelete = async (row) => {
+                try {
+                    const response = await fetch(`/api/oauth2/clients/${row.id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('删除失败');
+                    }
+
+                    message.success('删除成功');
+                    loadClients();
+                } catch (error) {
+                    message.error(error.message);
+                }
+            };
+
+            const handleModalClose = () => {
+                showCreateModal.value = false;
+                resetForm();
+            };
+
+            // 初始加载
+            onMounted(() => {
+                loadClients();
+            });
+
+            return {
+                loading,
+                saving,
+                showCreateModal,
+                formRef,
+                clients,
+                pagination,
+                editingClient,
+                rules,
+                columns,
+                scopeOptions,
+                grantTypeOptions,
+                handlePageChange,
+                handleSaveClient,
+                handleEdit,
+                handleAdd,
+                handleDelete,
+                handleModalClose
+            };
+        }
+    });
+
+    // 注册Naive UI组件
+    app.use(naive);
+    const {message} = naive.createDiscreteApi(['message']);
+    window.$message = message;
+
+    app.mount('#app');
+</script>
+</body>
+</html>
