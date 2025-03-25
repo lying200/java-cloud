@@ -105,7 +105,7 @@ public class AuthorizationServerConfig {
             throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/login.html").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "lib/**", "/images/**", "/login.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)

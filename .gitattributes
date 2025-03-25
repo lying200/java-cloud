@@ -1,0 +1,5 @@
+# 将前端依赖库标记为vendored代码，避免GitHub将其识别为项目代码
+**/resources/static/lib/** linguist-vendored
+
+# 将minified JS文件标记为vendored代码
+*.min.js linguist-vendored=true
