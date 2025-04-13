@@ -1,0 +1,32 @@
+server:
+  port: 8081
+  servlet:
+    session:
+      cookie:
+        name: CLOUD_USER_SESSION_ID
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          cloud-user-client:
+            client-id: cloud-user-client
+            client-secret: secret
+            client-name: Cloud User SSO Client
+            provider: cloud-auth
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope: openid,profile,read,write
+        provider:
+          cloud-auth:
+            authorization-uri: http://localhost:8081/oauth2/authorize
+            token-uri: http://localhost:8081/oauth2/token
+            jwk-set-uri: http://localhost:8081/oauth2/jwks
+            user-info-uri: http://localhost:8081/userinfo
+            user-name-attribute: sub
+
+logging:
+  level:
+    root: debug
+    org.springframework.security: trace

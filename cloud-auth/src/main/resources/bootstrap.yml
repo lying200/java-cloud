@@ -1,3 +1,10 @@
+server:
+  port: 8081
+  servlet:
+    session:
+      cookie:
+        name: CLOUD_AUTH_SESSION_ID
+
 spring:
   application:
     name: cloud-auth
@@ -20,3 +27,8 @@ spring:
               - uri: http://localhost:8087
             cloud-gateway:
               - uri: http://localhost:8080
+
+logging:
+  level:
+    root: debug
+    org.springframework.security: trace

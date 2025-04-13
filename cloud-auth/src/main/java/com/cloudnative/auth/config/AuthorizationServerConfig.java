@@ -95,6 +95,7 @@ public class AuthorizationServerConfig {
                     );
                 })
                 .with(authorizationServerConfigurer, Customizer.withDefaults());
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
 
         return http.build();
     }
@@ -119,7 +120,7 @@ public class AuthorizationServerConfig {
                                         .loginPage("/login.html")
                                         .loginProcessingUrl("/authentication/login")
                                         .failureHandler(authenticationFailureHandler)
-                                        .successHandler(authenticationSuccessHandler)
+//                                        .successHandler(authenticationSuccessHandler)
                 );
 
         return http.build();

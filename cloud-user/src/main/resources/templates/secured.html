@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <title>Cloud User - Secured Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #333; }
+        .btn { 
+            display: inline-block; 
+            padding: 10px 15px; 
+            background-color: #4CAF50; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            margin-right: 10px;
+        }
+        .btn:hover { background-color: #45a049; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Secured Page</h1>
+        <p>Welcome, <span th:text="${username}">User</span>! You have successfully authenticated with SSO.</p>
+        
+        <h2>User Attributes</h2>
+        <table>
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            <tr th:each="attr : ${attributes}">
+                <td th:text="${attr.key}">Key</td>
+                <td th:text="${attr.value}">Value</td>
+            </tr>
+        </table>
+        
+        <div style="margin-top: 20px;">
+            <a href="/" class="btn">Home</a>
+            <a href="/logout" class="btn">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
