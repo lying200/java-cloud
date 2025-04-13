@@ -13,3 +13,5 @@ data:
         name: cloud-user
       r2dbc:
         url: r2dbc:postgresql://192.168.3.201:31432/cloud_user
+      liquibase:
+        url: jdbc:postgresql://192.168.3.201:31432/cloud_user

@@ -13,6 +13,8 @@ data:
         name: cloud-order
       r2dbc:
         url: r2dbc:postgresql://192.168.3.201:31432/cloud_order
+      liquibase:
+        url: jdbc:postgresql://192.168.3.201:31432/cloud_order
     seata:
       enabled: true
       application-id: ${spring.application.name}

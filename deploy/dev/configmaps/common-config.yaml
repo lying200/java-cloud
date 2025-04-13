@@ -12,6 +12,9 @@ data:
         pool:
           initial-size: 5
           max-size: 20
+      liquibase:
+        user: devuser
+        password: devpassword
       data:
         redis:
           host: 192.168.3.201

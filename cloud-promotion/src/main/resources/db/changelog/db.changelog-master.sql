@@ -3,26 +3,26 @@
 
 -- 优惠券表
 CREATE TABLE coupons (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    type SMALLINT NOT NULL,
-    amount DECIMAL(10,2),
-    min_point DECIMAL(10,2),
-    start_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    end_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    total INTEGER NOT NULL,
-    used INTEGER NOT NULL DEFAULT 0,
-    per_limit INTEGER NOT NULL DEFAULT 1,
-    use_type SMALLINT NOT NULL,
-    platform_type SMALLINT NOT NULL DEFAULT 0,
-    product_category_ids VARCHAR(500),
-    product_ids VARCHAR(500),
-    code VARCHAR(50),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                         id BIGSERIAL PRIMARY KEY,
+                         name VARCHAR(100) NOT NULL,
+                         type SMALLINT NOT NULL,
+                         amount DECIMAL(10,2),
+                         min_point DECIMAL(10,2),
+                         start_time TIMESTAMP WITH TIME ZONE NOT NULL,
+                         end_time TIMESTAMP WITH TIME ZONE NOT NULL,
+                         total INTEGER NOT NULL,
+                         used INTEGER NOT NULL DEFAULT 0,
+                         per_limit INTEGER NOT NULL DEFAULT 1,
+                         use_type SMALLINT NOT NULL,
+                         platform_type SMALLINT NOT NULL DEFAULT 0,
+                         product_category_ids VARCHAR(500),
+                         product_ids VARCHAR(500),
+                         code VARCHAR(50),
+                         status SMALLINT NOT NULL DEFAULT 1,
+                         deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                         create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_coupons_code ON coupons (code) WHERE NOT deleted;
@@ -50,18 +50,18 @@ COMMENT ON COLUMN coupons.version IS '版本号';
 
 -- 用户优惠券表
 CREATE TABLE user_coupons (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    coupon_id BIGINT NOT NULL,
-    order_id BIGINT,
-    order_no VARCHAR(32),
-    status SMALLINT NOT NULL DEFAULT 1,
-    get_type SMALLINT NOT NULL DEFAULT 1,
-    get_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    use_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                              id BIGSERIAL PRIMARY KEY,
+                              user_id BIGINT NOT NULL,
+                              coupon_id BIGINT NOT NULL,
+                              order_id BIGINT,
+                              order_no VARCHAR(32),
+                              status SMALLINT NOT NULL DEFAULT 1,
+                              get_type SMALLINT NOT NULL DEFAULT 1,
+                              get_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              use_time TIMESTAMP WITH TIME ZONE,
+                              create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE user_coupons IS '用户优惠券表';
@@ -79,11 +79,11 @@ COMMENT ON COLUMN user_coupons.version IS '版本号';
 
 -- 优惠券领取历史表
 CREATE TABLE coupon_history (
-    id BIGSERIAL PRIMARY KEY,
-    coupon_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    get_type SMALLINT NOT NULL DEFAULT 1,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                id BIGSERIAL PRIMARY KEY,
+                                coupon_id BIGINT NOT NULL,
+                                user_id BIGINT NOT NULL,
+                                get_type SMALLINT NOT NULL DEFAULT 1,
+                                create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE coupon_history IS '优惠券领取历史表';

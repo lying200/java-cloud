@@ -15,6 +15,8 @@ data:
         uris: http://192.168.3.201:31920
       r2dbc:
         url: r2dbc:postgresql://192.168.3.201:31432/cloud_product
+      liquibase:
+        url: jdbc:postgresql://192.168.3.201:31432/cloud_product
             
     product:
       image:

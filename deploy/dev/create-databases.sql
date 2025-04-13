@@ -1,5 +1,4 @@
 -- 创建所有微服务数据库
--- 注意：此脚本需要在postgres数据库中执行
 
 -- 认证服务数据库
 DROP DATABASE IF EXISTS cloud_auth;

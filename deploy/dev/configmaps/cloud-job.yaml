@@ -13,6 +13,8 @@ data:
         name: cloud-job
       r2dbc:
         url: r2dbc:postgresql://192.168.3.201:31432/cloud_job
+      liquibase:
+        url: jdbc:postgresql://192.168.3.201:31432/cloud_job
       quartz:
         job-store-type: jdbc
         properties:

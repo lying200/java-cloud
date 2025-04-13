@@ -3,18 +3,18 @@
 
 -- 消息模板表
 CREATE TABLE message_templates (
-    id BIGSERIAL PRIMARY KEY,
-    code VARCHAR(100) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    type SMALLINT NOT NULL,
-    title_template TEXT NOT NULL,
-    content_template TEXT NOT NULL,
-    params JSONB,
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                   id BIGSERIAL PRIMARY KEY,
+                                   code VARCHAR(100) NOT NULL,
+                                   name VARCHAR(100) NOT NULL,
+                                   type SMALLINT NOT NULL,
+                                   title_template TEXT NOT NULL,
+                                   content_template TEXT NOT NULL,
+                                   params JSONB,
+                                   status SMALLINT NOT NULL DEFAULT 1,
+                                   deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                   create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_message_templates_code ON message_templates (code) WHERE NOT deleted;
@@ -34,19 +34,19 @@ COMMENT ON COLUMN message_templates.version IS '版本号';
 
 -- 消息记录表
 CREATE TABLE messages (
-    id BIGSERIAL PRIMARY KEY,
-    template_id BIGINT NOT NULL,
-    template_code VARCHAR(100) NOT NULL,
-    type SMALLINT NOT NULL,
-    title VARCHAR(200) NOT NULL,
-    content TEXT NOT NULL,
-    sender VARCHAR(100) NOT NULL DEFAULT 'system',
-    receiver VARCHAR(100) NOT NULL,
-    params JSONB,
-    status SMALLINT NOT NULL DEFAULT 1,
-    send_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                          id BIGSERIAL PRIMARY KEY,
+                          template_id BIGINT NOT NULL,
+                          template_code VARCHAR(100) NOT NULL,
+                          type SMALLINT NOT NULL,
+                          title VARCHAR(200) NOT NULL,
+                          content TEXT NOT NULL,
+                          sender VARCHAR(100) NOT NULL DEFAULT 'system',
+                          receiver VARCHAR(100) NOT NULL,
+                          params JSONB,
+                          status SMALLINT NOT NULL DEFAULT 1,
+                          send_time TIMESTAMP WITH TIME ZONE,
+                          create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE messages IS '消息记录表';
@@ -65,15 +65,15 @@ COMMENT ON COLUMN messages.update_time IS '更新时间';
 
 -- 站内信表
 CREATE TABLE internal_messages (
-    id BIGSERIAL PRIMARY KEY,
-    message_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    title VARCHAR(200) NOT NULL,
-    content TEXT NOT NULL,
-    is_read BOOLEAN NOT NULL DEFAULT FALSE,
-    read_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                   id BIGSERIAL PRIMARY KEY,
+                                   message_id BIGINT NOT NULL,
+                                   user_id BIGINT NOT NULL,
+                                   title VARCHAR(200) NOT NULL,
+                                   content TEXT NOT NULL,
+                                   is_read BOOLEAN NOT NULL DEFAULT FALSE,
+                                   read_time TIMESTAMP WITH TIME ZONE,
+                                   create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                   update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE internal_messages IS '站内信表';
@@ -87,15 +87,15 @@ COMMENT ON COLUMN internal_messages.create_time IS '创建时间';
 
 -- 消息配置表
 CREATE TABLE message_configs (
-    id BIGSERIAL PRIMARY KEY,
-    type SMALLINT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    config JSONB NOT NULL,
-    status SMALLINT NOT NULL DEFAULT 1,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(type, name)
+                                 id BIGSERIAL PRIMARY KEY,
+                                 type SMALLINT NOT NULL,
+                                 name VARCHAR(100) NOT NULL,
+                                 config JSONB NOT NULL,
+                                 status SMALLINT NOT NULL DEFAULT 1,
+                                 create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                 update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                 version INTEGER NOT NULL DEFAULT 0,
+                                 UNIQUE(type, name)
 );
 
 COMMENT ON TABLE message_configs IS '消息配置表';

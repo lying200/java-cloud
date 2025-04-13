@@ -3,21 +3,21 @@
 
 -- 任务信息表
 CREATE TABLE jobs (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    job_group VARCHAR(50) NOT NULL,
-    invoke_target VARCHAR(500) NOT NULL,
-    cron_expression VARCHAR(255) NOT NULL,
-    misfire_policy SMALLINT NOT NULL DEFAULT 1,
-    concurrent BOOLEAN NOT NULL DEFAULT FALSE,
-    status SMALLINT NOT NULL DEFAULT 1,
-    remark VARCHAR(500),
-    notify_channel SMALLINT,
-    notify_emails VARCHAR(255),
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                      id BIGSERIAL PRIMARY KEY,
+                      name VARCHAR(100) NOT NULL,
+                      job_group VARCHAR(50) NOT NULL,
+                      invoke_target VARCHAR(500) NOT NULL,
+                      cron_expression VARCHAR(255) NOT NULL,
+                      misfire_policy SMALLINT NOT NULL DEFAULT 1,
+                      concurrent BOOLEAN NOT NULL DEFAULT FALSE,
+                      status SMALLINT NOT NULL DEFAULT 1,
+                      remark VARCHAR(500),
+                      notify_channel SMALLINT,
+                      notify_emails VARCHAR(255),
+                      deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                      create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_jobs_name_group ON jobs (name, job_group) WHERE NOT deleted;
@@ -40,20 +40,20 @@ COMMENT ON COLUMN jobs.version IS '版本号';
 
 -- 任务日志表
 CREATE TABLE job_logs (
-    id BIGSERIAL PRIMARY KEY,
-    job_id BIGINT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    job_group VARCHAR(50) NOT NULL,
-    invoke_target VARCHAR(500) NOT NULL,
-    job_message VARCHAR(500),
-    status SMALLINT NOT NULL DEFAULT 1,
-    exception_info TEXT,
-    start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_time TIMESTAMP WITH TIME ZONE,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                          id BIGSERIAL PRIMARY KEY,
+                          job_id BIGINT NOT NULL,
+                          name VARCHAR(100) NOT NULL,
+                          job_group VARCHAR(50) NOT NULL,
+                          invoke_target VARCHAR(500) NOT NULL,
+                          job_message VARCHAR(500),
+                          status SMALLINT NOT NULL DEFAULT 1,
+                          exception_info TEXT,
+                          start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          end_time TIMESTAMP WITH TIME ZONE,
+                          deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                          create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE job_logs IS '任务日志表';
@@ -73,16 +73,16 @@ COMMENT ON COLUMN job_logs.version IS '版本号';
 
 -- 任务锁表
 CREATE TABLE job_locks (
-    id BIGSERIAL PRIMARY KEY,
-    lock_name VARCHAR(100) NOT NULL,
-    lock_key VARCHAR(100) NOT NULL,
-    node_id VARCHAR(100) NOT NULL,
-    lock_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expire_time TIMESTAMP WITH TIME ZONE NOT NULL,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                           id BIGSERIAL PRIMARY KEY,
+                           lock_name VARCHAR(100) NOT NULL,
+                           lock_key VARCHAR(100) NOT NULL,
+                           node_id VARCHAR(100) NOT NULL,
+                           lock_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                           expire_time TIMESTAMP WITH TIME ZONE NOT NULL,
+                           deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                           create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                           update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                           version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_job_locks_name ON job_locks (lock_name) WHERE NOT deleted;

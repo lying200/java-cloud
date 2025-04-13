@@ -13,6 +13,8 @@ data:
         name: cloud-message
       r2dbc:
         url: r2dbc:postgresql://192.168.3.201:31432/cloud_message
+      liquibase:
+        url: jdbc:postgresql://192.168.3.201:31432/cloud_message
       cloud:
         stream:
           function:

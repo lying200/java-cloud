@@ -21,4 +21,6 @@ spring:
         enabled: true
         mode: polling
         period: 5000
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
 

@@ -17,6 +17,9 @@ kubectl apply -f storage-class.yaml
 # 应用密钥配置
 kubectl apply -f secrets.yaml
 
+# postgres初始数据库配置
+kubectl create configmap postgres-init-scripts --from-file=create-databases.sql -n dev
+
 # 部署基础设施服务
 kubectl apply -f postgres-dev.yaml
 kubectl apply -f redis-dev.yaml

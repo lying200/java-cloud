@@ -3,16 +3,16 @@
 
 -- 购物车表
 CREATE TABLE shopping_carts (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
-    sku_id BIGINT NOT NULL,
-    quantity INTEGER NOT NULL DEFAULT 1,
-    checked BOOLEAN NOT NULL DEFAULT TRUE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(user_id, sku_id)
+                                id BIGSERIAL PRIMARY KEY,
+                                user_id BIGINT NOT NULL,
+                                product_id BIGINT NOT NULL,
+                                sku_id BIGINT NOT NULL,
+                                quantity INTEGER NOT NULL DEFAULT 1,
+                                checked BOOLEAN NOT NULL DEFAULT TRUE,
+                                create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                version INTEGER NOT NULL DEFAULT 0,
+                                UNIQUE(user_id, sku_id)
 );
 
 COMMENT ON TABLE shopping_carts IS '购物车表';
@@ -27,33 +27,33 @@ COMMENT ON COLUMN shopping_carts.version IS '版本号';
 
 -- 订单表
 CREATE TABLE orders (
-    id BIGSERIAL PRIMARY KEY,
-    order_no VARCHAR(32) NOT NULL,
-    user_id BIGINT NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    pay_amount DECIMAL(10,2) NOT NULL,
-    freight_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
-    discount_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
-    coupon_id BIGINT,
-    pay_type SMALLINT,
-    source SMALLINT NOT NULL DEFAULT 1,
-    status SMALLINT NOT NULL DEFAULT 1,
-    payment_time TIMESTAMP WITH TIME ZONE,
-    delivery_time TIMESTAMP WITH TIME ZONE,
-    receive_time TIMESTAMP WITH TIME ZONE,
-    comment_time TIMESTAMP WITH TIME ZONE,
-    receiver_name VARCHAR(50) NOT NULL,
-    receiver_phone VARCHAR(20) NOT NULL,
-    receiver_province VARCHAR(50) NOT NULL,
-    receiver_city VARCHAR(50) NOT NULL,
-    receiver_district VARCHAR(50) NOT NULL,
-    receiver_address VARCHAR(200) NOT NULL,
-    note VARCHAR(500),
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(order_no)
+                        id BIGSERIAL PRIMARY KEY,
+                        order_no VARCHAR(32) NOT NULL,
+                        user_id BIGINT NOT NULL,
+                        total_amount DECIMAL(10,2) NOT NULL,
+                        pay_amount DECIMAL(10,2) NOT NULL,
+                        freight_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+                        discount_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+                        coupon_id BIGINT,
+                        pay_type SMALLINT,
+                        source SMALLINT NOT NULL DEFAULT 1,
+                        status SMALLINT NOT NULL DEFAULT 1,
+                        payment_time TIMESTAMP WITH TIME ZONE,
+                        delivery_time TIMESTAMP WITH TIME ZONE,
+                        receive_time TIMESTAMP WITH TIME ZONE,
+                        comment_time TIMESTAMP WITH TIME ZONE,
+                        receiver_name VARCHAR(50) NOT NULL,
+                        receiver_phone VARCHAR(20) NOT NULL,
+                        receiver_province VARCHAR(50) NOT NULL,
+                        receiver_city VARCHAR(50) NOT NULL,
+                        receiver_district VARCHAR(50) NOT NULL,
+                        receiver_address VARCHAR(200) NOT NULL,
+                        note VARCHAR(500),
+                        deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                        create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        version INTEGER NOT NULL DEFAULT 0,
+                        UNIQUE(order_no)
 );
 
 COMMENT ON TABLE orders IS '订单表';
@@ -85,19 +85,19 @@ COMMENT ON COLUMN orders.version IS '版本号';
 
 -- 订单项表
 CREATE TABLE order_items (
-    id BIGSERIAL PRIMARY KEY,
-    order_id BIGINT NOT NULL,
-    order_no VARCHAR(32) NOT NULL,
-    product_id BIGINT NOT NULL,
-    sku_id BIGINT NOT NULL,
-    product_name VARCHAR(200) NOT NULL,
-    sku_code VARCHAR(100) NOT NULL,
-    product_image VARCHAR(255),
-    purchase_price DECIMAL(10,2) NOT NULL,
-    quantity INTEGER NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    real_amount DECIMAL(10,2) NOT NULL,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                             id BIGSERIAL PRIMARY KEY,
+                             order_id BIGINT NOT NULL,
+                             order_no VARCHAR(32) NOT NULL,
+                             product_id BIGINT NOT NULL,
+                             sku_id BIGINT NOT NULL,
+                             product_name VARCHAR(200) NOT NULL,
+                             sku_code VARCHAR(100) NOT NULL,
+                             product_image VARCHAR(255),
+                             purchase_price DECIMAL(10,2) NOT NULL,
+                             quantity INTEGER NOT NULL,
+                             total_amount DECIMAL(10,2) NOT NULL,
+                             real_amount DECIMAL(10,2) NOT NULL,
+                             create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE order_items IS '订单项表';
@@ -116,21 +116,21 @@ COMMENT ON COLUMN order_items.create_time IS '创建时间';
 
 -- 订单支付表
 CREATE TABLE order_payments (
-    id BIGSERIAL PRIMARY KEY,
-    order_id BIGINT NOT NULL,
-    order_no VARCHAR(32) NOT NULL,
-    user_id BIGINT NOT NULL,
-    payment_no VARCHAR(32) NOT NULL,
-    payment_method SMALLINT NOT NULL,
-    payment_amount DECIMAL(10,2) NOT NULL,
-    payment_time TIMESTAMP WITH TIME ZONE,
-    payment_status SMALLINT NOT NULL DEFAULT 1,
-    callback_content TEXT,
-    callback_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(payment_no),
-    UNIQUE(order_no)
+                                id BIGSERIAL PRIMARY KEY,
+                                order_id BIGINT NOT NULL,
+                                order_no VARCHAR(32) NOT NULL,
+                                user_id BIGINT NOT NULL,
+                                payment_no VARCHAR(32) NOT NULL,
+                                payment_method SMALLINT NOT NULL,
+                                payment_amount DECIMAL(10,2) NOT NULL,
+                                payment_time TIMESTAMP WITH TIME ZONE,
+                                payment_status SMALLINT NOT NULL DEFAULT 1,
+                                callback_content TEXT,
+                                callback_time TIMESTAMP WITH TIME ZONE,
+                                create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                UNIQUE(payment_no),
+                                UNIQUE(order_no)
 );
 
 COMMENT ON TABLE order_payments IS '订单支付表';
@@ -149,24 +149,24 @@ COMMENT ON COLUMN order_payments.update_time IS '更新时间';
 
 -- 订单配送表
 CREATE TABLE order_deliveries (
-    id BIGSERIAL PRIMARY KEY,
-    order_id BIGINT NOT NULL,
-    order_no VARCHAR(32) NOT NULL,
-    delivery_no VARCHAR(32) NOT NULL,
-    delivery_company VARCHAR(50) NOT NULL,
-    status SMALLINT NOT NULL DEFAULT 1,
-    receiver_name VARCHAR(50) NOT NULL,
-    receiver_phone VARCHAR(20) NOT NULL,
-    receiver_province VARCHAR(50) NOT NULL,
-    receiver_city VARCHAR(50) NOT NULL,
-    receiver_district VARCHAR(50) NOT NULL,
-    receiver_address VARCHAR(200) NOT NULL,
-    delivery_time TIMESTAMP WITH TIME ZONE,
-    receive_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(delivery_no),
-    UNIQUE(order_no)
+                                  id BIGSERIAL PRIMARY KEY,
+                                  order_id BIGINT NOT NULL,
+                                  order_no VARCHAR(32) NOT NULL,
+                                  delivery_no VARCHAR(32) NOT NULL,
+                                  delivery_company VARCHAR(50) NOT NULL,
+                                  status SMALLINT NOT NULL DEFAULT 1,
+                                  receiver_name VARCHAR(50) NOT NULL,
+                                  receiver_phone VARCHAR(20) NOT NULL,
+                                  receiver_province VARCHAR(50) NOT NULL,
+                                  receiver_city VARCHAR(50) NOT NULL,
+                                  receiver_district VARCHAR(50) NOT NULL,
+                                  receiver_address VARCHAR(200) NOT NULL,
+                                  delivery_time TIMESTAMP WITH TIME ZONE,
+                                  receive_time TIMESTAMP WITH TIME ZONE,
+                                  create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  UNIQUE(delivery_no),
+                                  UNIQUE(order_no)
 );
 
 COMMENT ON TABLE order_deliveries IS '订单配送表';
@@ -188,24 +188,24 @@ COMMENT ON COLUMN order_deliveries.update_time IS '更新时间';
 
 -- 订单退货表
 CREATE TABLE order_returns (
-    id BIGSERIAL PRIMARY KEY,
-    return_no VARCHAR(32) NOT NULL,
-    order_id BIGINT NOT NULL,
-    order_no VARCHAR(32) NOT NULL,
-    user_id BIGINT NOT NULL,
-    return_amount DECIMAL(10,2) NOT NULL,
-    return_type SMALLINT NOT NULL,
-    return_reason VARCHAR(500) NOT NULL,
-    status SMALLINT NOT NULL DEFAULT 1,
-    refuse_reason VARCHAR(500),
-    logistics_no VARCHAR(32),
-    logistics_company VARCHAR(50),
-    return_time TIMESTAMP WITH TIME ZONE,
-    complete_time TIMESTAMP WITH TIME ZONE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(return_no),
-    UNIQUE(order_no)
+                               id BIGSERIAL PRIMARY KEY,
+                               return_no VARCHAR(32) NOT NULL,
+                               order_id BIGINT NOT NULL,
+                               order_no VARCHAR(32) NOT NULL,
+                               user_id BIGINT NOT NULL,
+                               return_amount DECIMAL(10,2) NOT NULL,
+                               return_type SMALLINT NOT NULL,
+                               return_reason VARCHAR(500) NOT NULL,
+                               status SMALLINT NOT NULL DEFAULT 1,
+                               refuse_reason VARCHAR(500),
+                               logistics_no VARCHAR(32),
+                               logistics_company VARCHAR(50),
+                               return_time TIMESTAMP WITH TIME ZONE,
+                               complete_time TIMESTAMP WITH TIME ZONE,
+                               create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               UNIQUE(return_no),
+                               UNIQUE(order_no)
 );
 
 COMMENT ON TABLE order_returns IS '订单退货表';
@@ -227,15 +227,15 @@ COMMENT ON COLUMN order_returns.update_time IS '更新时间';
 
 -- 订单操作历史表
 CREATE TABLE order_histories (
-    id BIGSERIAL PRIMARY KEY,
-    order_id BIGINT NOT NULL,
-    order_no VARCHAR(32) NOT NULL,
-    operator_id BIGINT NOT NULL,
-    operator_type SMALLINT NOT NULL,
-    order_status SMALLINT NOT NULL,
-    action VARCHAR(100) NOT NULL,
-    note VARCHAR(500),
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                 id BIGSERIAL PRIMARY KEY,
+                                 order_id BIGINT NOT NULL,
+                                 order_no VARCHAR(32) NOT NULL,
+                                 operator_id BIGINT NOT NULL,
+                                 operator_type SMALLINT NOT NULL,
+                                 order_status SMALLINT NOT NULL,
+                                 action VARCHAR(100) NOT NULL,
+                                 note VARCHAR(500),
+                                 create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE order_histories IS '订单操作历史表';

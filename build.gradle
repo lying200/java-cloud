@@ -43,6 +43,10 @@ subprojects {
         implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
         implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
 
+        // liquibase
+        implementation 'org.liquibase:liquibase-core'
+        implementation 'org.postgresql:postgresql'
+
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 

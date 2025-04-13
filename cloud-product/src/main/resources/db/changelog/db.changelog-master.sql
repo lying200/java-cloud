@@ -3,17 +3,17 @@
 
 -- 商品分类表
 CREATE TABLE product_categories (
-    id BIGSERIAL PRIMARY KEY,
-    parent_id BIGINT,
-    name VARCHAR(100) NOT NULL,
-    level INTEGER NOT NULL DEFAULT 1,
-    sort INTEGER NOT NULL DEFAULT 0,
-    icon VARCHAR(200),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                    id BIGSERIAL PRIMARY KEY,
+                                    parent_id BIGINT,
+                                    name VARCHAR(100) NOT NULL,
+                                    level INTEGER NOT NULL DEFAULT 1,
+                                    sort INTEGER NOT NULL DEFAULT 0,
+                                    icon VARCHAR(200),
+                                    status SMALLINT NOT NULL DEFAULT 1,
+                                    deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_product_categories_name ON product_categories (name) WHERE NOT deleted;
@@ -32,16 +32,16 @@ COMMENT ON COLUMN product_categories.version IS '版本号';
 
 -- 商品品牌表
 CREATE TABLE product_brands (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    logo VARCHAR(200),
-    description TEXT,
-    sort INTEGER NOT NULL DEFAULT 0,
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                id BIGSERIAL PRIMARY KEY,
+                                name VARCHAR(100) NOT NULL,
+                                logo VARCHAR(200),
+                                description TEXT,
+                                sort INTEGER NOT NULL DEFAULT 0,
+                                status SMALLINT NOT NULL DEFAULT 1,
+                                deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_product_brands_name ON product_brands (name) WHERE NOT deleted;
@@ -59,20 +59,20 @@ COMMENT ON COLUMN product_brands.version IS '版本号';
 
 -- 商品属性表
 CREATE TABLE product_attributes (
-    id BIGSERIAL PRIMARY KEY,
-    category_id BIGINT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    type SMALLINT NOT NULL DEFAULT 1,
-    input_type SMALLINT NOT NULL DEFAULT 1,
-    input_list VARCHAR(500),
-    sort INTEGER NOT NULL DEFAULT 0,
-    filter BOOLEAN NOT NULL DEFAULT FALSE,
-    search BOOLEAN NOT NULL DEFAULT FALSE,
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                    id BIGSERIAL PRIMARY KEY,
+                                    category_id BIGINT NOT NULL,
+                                    name VARCHAR(100) NOT NULL,
+                                    type SMALLINT NOT NULL DEFAULT 1,
+                                    input_type SMALLINT NOT NULL DEFAULT 1,
+                                    input_list VARCHAR(500),
+                                    sort INTEGER NOT NULL DEFAULT 0,
+                                    filter BOOLEAN NOT NULL DEFAULT FALSE,
+                                    search BOOLEAN NOT NULL DEFAULT FALSE,
+                                    status SMALLINT NOT NULL DEFAULT 1,
+                                    deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                    version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE product_attributes IS '商品属性表';
@@ -92,31 +92,31 @@ COMMENT ON COLUMN product_attributes.version IS '版本号';
 
 -- 商品表
 CREATE TABLE products (
-    id BIGSERIAL PRIMARY KEY,
-    category_id BIGINT NOT NULL,
-    brand_id BIGINT NOT NULL,
-    name VARCHAR(200) NOT NULL,
-    subtitle VARCHAR(200),
-    description TEXT,
-    price DECIMAL(10,2) NOT NULL,
-    original_price DECIMAL(10,2),
-    pic_url VARCHAR(200),
-    album_pics TEXT,
-    detail_html TEXT,
-    unit VARCHAR(20),
-    weight DECIMAL(10,2),
-    service_ids VARCHAR(100),
-    keywords VARCHAR(200),
-    note VARCHAR(500),
-    publish_status SMALLINT NOT NULL DEFAULT 1,
-    recommend_status SMALLINT NOT NULL DEFAULT 0,
-    verify_status SMALLINT NOT NULL DEFAULT 1,
-    sort INTEGER NOT NULL DEFAULT 0,
-    sale INTEGER NOT NULL DEFAULT 0,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                          id BIGSERIAL PRIMARY KEY,
+                          category_id BIGINT NOT NULL,
+                          brand_id BIGINT NOT NULL,
+                          name VARCHAR(200) NOT NULL,
+                          subtitle VARCHAR(200),
+                          description TEXT,
+                          price DECIMAL(10,2) NOT NULL,
+                          original_price DECIMAL(10,2),
+                          pic_url VARCHAR(200),
+                          album_pics TEXT,
+                          detail_html TEXT,
+                          unit VARCHAR(20),
+                          weight DECIMAL(10,2),
+                          service_ids VARCHAR(100),
+                          keywords VARCHAR(200),
+                          note VARCHAR(500),
+                          publish_status SMALLINT NOT NULL DEFAULT 1,
+                          recommend_status SMALLINT NOT NULL DEFAULT 0,
+                          verify_status SMALLINT NOT NULL DEFAULT 1,
+                          sort INTEGER NOT NULL DEFAULT 0,
+                          sale INTEGER NOT NULL DEFAULT 0,
+                          deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                          create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_products_name ON products (name) WHERE NOT deleted;
@@ -149,21 +149,21 @@ COMMENT ON COLUMN products.version IS '版本号';
 
 -- 商品SKU表
 CREATE TABLE product_skus (
-    id BIGSERIAL PRIMARY KEY,
-    product_id BIGINT NOT NULL,
-    sku_code VARCHAR(100) NOT NULL,
-    name VARCHAR(200) NOT NULL,
-    spec_data JSONB NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    original_price DECIMAL(10,2),
-    stock INTEGER NOT NULL DEFAULT 0,
-    low_stock INTEGER NOT NULL DEFAULT 0,
-    pic_url VARCHAR(200),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                              id BIGSERIAL PRIMARY KEY,
+                              product_id BIGINT NOT NULL,
+                              sku_code VARCHAR(100) NOT NULL,
+                              name VARCHAR(200) NOT NULL,
+                              spec_data JSONB NOT NULL,
+                              price DECIMAL(10,2) NOT NULL,
+                              original_price DECIMAL(10,2),
+                              stock INTEGER NOT NULL DEFAULT 0,
+                              low_stock INTEGER NOT NULL DEFAULT 0,
+                              pic_url VARCHAR(200),
+                              status SMALLINT NOT NULL DEFAULT 1,
+                              deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                              create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_product_skus_sku_code ON product_skus (sku_code) WHERE NOT deleted;
@@ -186,20 +186,20 @@ COMMENT ON COLUMN product_skus.version IS '版本号';
 
 -- 商品评价表
 CREATE TABLE product_reviews (
-    id BIGSERIAL PRIMARY KEY,
-    product_id BIGINT NOT NULL,
-    sku_id BIGINT NOT NULL,
-    order_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    star SMALLINT NOT NULL DEFAULT 5,
-    content TEXT,
-    pics TEXT,
-    video_url VARCHAR(200),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                 id BIGSERIAL PRIMARY KEY,
+                                 product_id BIGINT NOT NULL,
+                                 sku_id BIGINT NOT NULL,
+                                 order_id BIGINT NOT NULL,
+                                 user_id BIGINT NOT NULL,
+                                 star SMALLINT NOT NULL DEFAULT 5,
+                                 content TEXT,
+                                 pics TEXT,
+                                 video_url VARCHAR(200),
+                                 status SMALLINT NOT NULL DEFAULT 1,
+                                 deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                 create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                 update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                 version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE product_reviews IS '商品评价表';

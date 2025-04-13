@@ -3,19 +3,19 @@
 
 -- 用户表
 CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    nickname VARCHAR(50),
-    avatar VARCHAR(255),
-    mobile VARCHAR(20),
-    email VARCHAR(100),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_login_time TIMESTAMP WITH TIME ZONE,
-    version INTEGER NOT NULL DEFAULT 0
+                       id BIGSERIAL PRIMARY KEY,
+                       username VARCHAR(50) NOT NULL,
+                       password VARCHAR(100) NOT NULL,
+                       nickname VARCHAR(50),
+                       avatar VARCHAR(255),
+                       mobile VARCHAR(20),
+                       email VARCHAR(100),
+                       status SMALLINT NOT NULL DEFAULT 1,
+                       deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                       create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       last_login_time TIMESTAMP WITH TIME ZONE,
+                       version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_users_username ON users (username) WHERE NOT deleted;
@@ -38,13 +38,13 @@ COMMENT ON COLUMN users.version IS '版本号';
 
 -- 用户角色表
 CREATE TABLE user_roles (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    role_code VARCHAR(50) NOT NULL,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(user_id, role_code)
+                            id BIGSERIAL PRIMARY KEY,
+                            user_id BIGINT NOT NULL,
+                            role_code VARCHAR(50) NOT NULL,
+                            create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                            update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                            version INTEGER NOT NULL DEFAULT 0,
+                            UNIQUE(user_id, role_code)
 );
 
 COMMENT ON TABLE user_roles IS '用户角色关联表';
@@ -56,15 +56,15 @@ COMMENT ON COLUMN user_roles.version IS '版本号';
 
 -- 角色表
 CREATE TABLE roles (
-    id BIGSERIAL PRIMARY KEY,
-    role_code VARCHAR(50) NOT NULL,
-    role_name VARCHAR(100) NOT NULL,
-    description VARCHAR(500),
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                       id BIGSERIAL PRIMARY KEY,
+                       role_code VARCHAR(50) NOT NULL,
+                       role_name VARCHAR(100) NOT NULL,
+                       description VARCHAR(500),
+                       status SMALLINT NOT NULL DEFAULT 1,
+                       deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                       create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                       version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_roles_role_code ON roles (role_code) WHERE NOT deleted;
@@ -81,13 +81,13 @@ COMMENT ON COLUMN roles.version IS '版本号';
 
 -- 角色权限表
 CREATE TABLE role_permissions (
-    id BIGSERIAL PRIMARY KEY,
-    role_code VARCHAR(50) NOT NULL,
-    permission_code VARCHAR(100) NOT NULL,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(role_code, permission_code)
+                                  id BIGSERIAL PRIMARY KEY,
+                                  role_code VARCHAR(50) NOT NULL,
+                                  permission_code VARCHAR(100) NOT NULL,
+                                  create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  version INTEGER NOT NULL DEFAULT 0,
+                                  UNIQUE(role_code, permission_code)
 );
 
 COMMENT ON TABLE role_permissions IS '角色权限关联表';
@@ -99,21 +99,21 @@ COMMENT ON COLUMN role_permissions.version IS '版本号';
 
 -- 权限表
 CREATE TABLE permissions (
-    id BIGSERIAL PRIMARY KEY,
-    permission_code VARCHAR(100) NOT NULL,
-    permission_name VARCHAR(100) NOT NULL,
-    permission_type VARCHAR(50) NOT NULL,
-    parent_id BIGINT,
-    path VARCHAR(200),
-    component VARCHAR(255),
-    redirect VARCHAR(255),
-    icon VARCHAR(100),
-    sort_order INTEGER NOT NULL DEFAULT 0,
-    status SMALLINT NOT NULL DEFAULT 1,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                             id BIGSERIAL PRIMARY KEY,
+                             permission_code VARCHAR(100) NOT NULL,
+                             permission_name VARCHAR(100) NOT NULL,
+                             permission_type VARCHAR(50) NOT NULL,
+                             parent_id BIGINT,
+                             path VARCHAR(200),
+                             component VARCHAR(255),
+                             redirect VARCHAR(255),
+                             icon VARCHAR(100),
+                             sort_order INTEGER NOT NULL DEFAULT 0,
+                             status SMALLINT NOT NULL DEFAULT 1,
+                             deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                             create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             version INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNIQUE INDEX idx_permissions_permission_code ON permissions (permission_code) WHERE NOT deleted;
@@ -136,19 +136,19 @@ COMMENT ON COLUMN permissions.version IS '版本号';
 
 -- 用户地址表
 CREATE TABLE user_addresses (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    receiver_name VARCHAR(50) NOT NULL,
-    receiver_mobile VARCHAR(20) NOT NULL,
-    province VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    district VARCHAR(50) NOT NULL,
-    detail_address VARCHAR(200) NOT NULL,
-    is_default BOOLEAN NOT NULL DEFAULT FALSE,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                                id BIGSERIAL PRIMARY KEY,
+                                user_id BIGINT NOT NULL,
+                                receiver_name VARCHAR(50) NOT NULL,
+                                receiver_mobile VARCHAR(20) NOT NULL,
+                                province VARCHAR(50) NOT NULL,
+                                city VARCHAR(50) NOT NULL,
+                                district VARCHAR(50) NOT NULL,
+                                detail_address VARCHAR(200) NOT NULL,
+                                is_default BOOLEAN NOT NULL DEFAULT FALSE,
+                                deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                                create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE user_addresses IS '用户地址表';
@@ -167,12 +167,12 @@ COMMENT ON COLUMN user_addresses.version IS '版本号';
 
 -- 用户积分表
 CREATE TABLE user_points (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    points INTEGER NOT NULL DEFAULT 0,
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    version INTEGER NOT NULL DEFAULT 0
+                             id BIGSERIAL PRIMARY KEY,
+                             user_id BIGINT NOT NULL,
+                             points INTEGER NOT NULL DEFAULT 0,
+                             create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             update_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             version INTEGER NOT NULL DEFAULT 0
 );
 
 COMMENT ON TABLE user_points IS '用户积分表';
@@ -184,12 +184,12 @@ COMMENT ON COLUMN user_points.version IS '版本号';
 
 -- 积分历史表
 CREATE TABLE point_history (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    points INTEGER NOT NULL,
-    type SMALLINT NOT NULL,
-    description VARCHAR(500),
-    create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+                               id BIGSERIAL PRIMARY KEY,
+                               user_id BIGINT NOT NULL,
+                               points INTEGER NOT NULL,
+                               type SMALLINT NOT NULL,
+                               description VARCHAR(500),
+                               create_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE point_history IS '积分历史表';

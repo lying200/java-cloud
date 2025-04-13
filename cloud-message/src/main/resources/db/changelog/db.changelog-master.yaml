@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: "liuying"
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: classpath:/db/changelog/db.changelog-master.sql
+            splitStatements: true
